@@ -1,0 +1,31 @@
+import lexer
+import sys
+
+if __name__ == '__main__':
+    
+    #Comprobacion de los parametros de entrada. 
+    if len(sys.argv) < 2:
+        print "Error: Parametros de entrada incorrectos."
+        exit()
+  
+    #Abrimos el archivo del codigo setlan
+    codeFile = open(sys.argv[1], 'r')
+
+    # Obtiene el archivo de entrada
+    codeFile = get_args(sys.argv)
+
+    # Aborta si no se consigue el archivo de entrada a leer
+    if os.path.isfile(codeFile) == False:
+        print("Error: No se consiguio el archivo de entrada especificado")
+        sys.exit(1)
+
+    # Lee el archivo indicado y lo analiza lexicograficamente
+    codeFile = open(codeFile, 'r')
+    code = codeFile.read()
+
+    #Ejecutamos el lexer
+    lexer.build_lexer(code)
+
+    lexBot = LexBOT()
+    lexBot.build()
+    lexBot.run(data)
