@@ -1,18 +1,26 @@
-import lexer
-import sys
+#!/usr/bin/env python
+# -*- coding: UTF-8 -*-
+
+'''
+Creado 26/04/2016
+
+@author: Cinthya Ramos. 09-11237
+@author: Patricia Valencia. 10-10916
+'''
+
+import os,sys
+from lexer import *
 
 if __name__ == '__main__':
     
     #Comprobacion de los parametros de entrada. 
     if len(sys.argv) < 2:
-        print "Error: Parametros de entrada incorrectos."
+        print 'Error: Parametros de entrada incorrectos.'
+        print 'Debe escribirlo como: ./LexNeo <archivo.neo>'
         exit()
-  
-    #Abrimos el archivo del codigo setlan
-    codeFile = open(sys.argv[1], 'r')
 
     # Obtiene el archivo de entrada
-    codeFile = get_args(sys.argv)
+    codeFile = sys.argv[1]
 
     # Aborta si no se consigue el archivo de entrada a leer
     if os.path.isfile(codeFile) == False:
@@ -25,7 +33,3 @@ if __name__ == '__main__':
 
     #Ejecutamos el lexer
     lexer.build_lexer(code)
-
-    lexBot = LexBOT()
-    lexBot.build()
-    lexBot.run(data)
