@@ -58,7 +58,7 @@ tokens = [
 	'TkId',
 
 	#Literales numericos
-	'TkNum'
+	'TkNum',
 
 	#Literales Caracter
 	'TkCaracter',
@@ -102,43 +102,64 @@ tokens = [
 #Ignora cualquier tipo de espacio
 #Tabulador y espacio uno o mas veces
 t_ignore = ' \s+'
+t_TkNum = '\d+'
 
 #Ignoramos los comentarios
 #t_ignore_comments = r'%{'  REVISAR
 
+#Definimos las expresiones para los separadores
+t_TkComa = r','  #PREGUNTAR
+t_TkPunto = r'\.'
+t_TkDosPuntos = r':'
+t_TkParAbre = r'\('
+t_TkParCierra = r'\)'
+t_TkCorcheteAbre = r'\['
+t_TkCorcheteCierra = r'\]'
+t_TkLlaveAbre = r'{'
+t_TkLlaveCierra = r'}'
+t_TkHacer = r'\->' #no se   
+t_TkAsignacion = r'\<-' #no se
+
+#Definimos las expresiones para operadores
+t_TkSuma = r'\+'
+t_TkResta = r'-'
+t_TkMult = r'\*'
+t_TkDiv = r'/'
+t_TkMod = r'%'
+t_TkConjuncion = r'/\\' #no se
+t_TkDisyuncion = r'\\/' #no se
+t_TkNegacion = r'not'
+t_TkMenor = r'<'
+t_TkMenorIgual = r'<='
+t_TkMayor = r'>'
+t_TkMayoIgual = r'>='
+t_TkIgual = r'='
+t_TkSiguienteCar = r'\+\+'
+t_TkAnteriorCar = r'\-\-'  #no se!!
+t_TkValorAscii = r'\#' #???
+t_TkConcatenacion = r'::'
+t_TkRotacion = r'\$'
+t_TkTrasposicion = r'\?' #??
+
+#Definimos literales numericos
+def TkNum (t):
+	r'\d+'
+	lexer_tokenList.append(t.lexer)
+	print ('hola',lexer_tokenList.append(t.lexer))
+
+
+#Cuenta numero de linea
 def t_newline(t):
     r'\n+'
     t.lexer.lineno += len(t.value)
 
-def t_TkSuma(t):
-	r'\+'
-	
+ #COntamos el numero de columna
 
-
-'''
-#Retorna un string conteniendo la linea y la columna
-def getLineAndColumn(code,t):
-    return '(Línea {0}, Columna {1})' .format(t.lexer.lineno, find_column(code,t))
-
-
-
-#Manejo de errores  
-
-def t_error(t):
-    errorString  = 'Error: se encontro un caracter inesperado "{0}"' .format(t.value[0])
-    errorString +=  getLineAndColumn(t.lexer.lexdata,t)
-    lexer_errorList.append(errorString)
-    t.lexer.skip(1)
-
-#Lista de errores del Lexer
-lexer_errorList = []
-'''
+#Creamos una lista de nuestros tokens
 lexer_tokenList = []
 
 #Construccion del lexer
 lexer = lex.lex()
-
-
 
 # Test it out
 data = '''
@@ -156,7 +177,7 @@ while True:
 
 
 
-
+'''
 
 def build_lexer(code):
     lexer = lex.lex()
@@ -165,7 +186,7 @@ def build_lexer(code):
     for tok in lexer_tokenList:
         print tok
 
-
+'''
 if __name__ == '__main__':
 	pass
 	
