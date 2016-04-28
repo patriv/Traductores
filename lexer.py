@@ -131,7 +131,7 @@ t_TkMayor = r'\>'
 t_TkMayorIgual = r'>='
 t_TkIgual = r'\='
 t_TkSiguienteCar = r'\++'
-t_TkAnteriorCar = r'\-' #ES IGUAL A LA RESTA?
+t_TkAnteriorCar = r'\-' #ES IGUAL A LA RESTA? deberia ser --
 t_TkValorAscii = r'\#'
 t_TkConcatenacion = r'\::'
 t_TkRotacion = r'\$'
@@ -141,9 +141,17 @@ def t_newline(t):
     r'\n+'
     t.lexer.lineno += len(t.value)
 
-# #Retorna un string conteniendo la linea y la columna
-# def getLineAndColumn(code,t):
-#     return '(Línea {0}, Columna {1})' .format(t.lexer.lineno, find_column(code,t))
+def find_column(code,t):
+    last_cr = code.rfind('\n',0,t.lexer.lexpos)
+    if last_cr < 0:
+        last_cr = 0
+    
+    column = (t.lexpos - last_cr)
+    return column    
+
+#Retorna un string conteniendo la linea y la columna
+def getLineAndColumn(code,t):
+    return '(Línea {0}, Columna {1})' .format(t.lexer.lineno, find_column(code,t))
 
 #Manejo de errores  
 
