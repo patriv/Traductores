@@ -19,7 +19,7 @@ reserved = {
 
 	'begin' : 'TkBegin',
 	'end'   : 'TkEnd',
-	'whith' : 'TkWith',
+	'with' : 'TkWith',
 	'var'   : 'TkVar',
 
 	#Condicional
@@ -49,6 +49,8 @@ reserved = {
 	'bool'  : 'TkBool', #es bool??
 	'int'   : 'TkInt',
 	'matrix': 'TkMatrix',
+
+	'of'    : 'TkOf'
 
 }
 
@@ -99,13 +101,17 @@ tokens = [
 
 ] + list(reserved.values())
 
-#Ignora cualquier tipo de espacio
-#Tabulador y espacio uno o mas veces
-t_ignore = ' \s+'
+
+#Ignora Tabulador y espacio uno o mas veces
+t_ignore = ' \t'
 t_TkNum = '\d+'
 
-#Ignoramos los comentarios
-#t_ignore_comments = r'%{'  REVISAR
+#Ignoramos comentarios simples
+t_ignore_commentSimple = r'\%\%(.)*'
+
+#Ignoramos los comentarios de secciones completas
+t_ignore_comment = r'\%{([^-]|([-]+[^\$]))*}%'
+    
 
 #Definimos las expresiones para los separadores
 t_TkComa = r','  #PREGUNTAR
@@ -136,16 +142,28 @@ t_TkMayoIgual = r'>='
 t_TkIgual = r'='
 t_TkSiguienteCar = r'\+\+'
 t_TkAnteriorCar = r'\-\-'  #no se!!
-t_TkValorAscii = r'\#' #???
+t_TkValorAscii = r'[#]' #???
 t_TkConcatenacion = r'::'
 t_TkRotacion = r'\$'
 t_TkTrasposicion = r'\?' #??
 
+'''
 #Definimos literales numericos
 def TkNum (t):
 	r'\d+'
 	lexer_tokenList.append(t.lexer)
-	print ('hola',lexer_tokenList.append(t.lexer))
+	'''
+
+#Expresion regular para TkId
+def t_TkId(t):
+    r'[a-zA-Z_][a-zA-Z_0-9]*'
+    t.type = reserved.get(t.value,'TkId')    # Check for reserved words
+    return t
+
+
+#Expresion regular para un caracter
+
+
 
 
 #Cuenta numero de linea
@@ -153,7 +171,27 @@ def t_newline(t):
     r'\n+'
     t.lexer.lineno += len(t.value)
 
- #COntamos el numero de columna
+#Cuenta numero de columna 
+def findColumn (t):
+	last_cr = lexer.lexdata.rfind('\n',0,t.lexpos)
+	if last_cr < 0:
+		last_cr = 0
+	column = t.lexpos - last_cr
+	return column
+
+#Errores de caracteres no esperados
+def t_error (t):
+	errorCaracter = 'ERROR: Caracter inesperado "{0}" en la fila {1}, columna {2}' .format(t.value[0], t.lineno, findColumn(t))
+	lexer_error.append(errorCaracter)
+	t.lexer.skip(1)
+
+def print_error():
+    print('\n'.join(lexer_error))
+
+
+
+#Creamos Lista de errores
+lexer_error = []
 
 #Creamos una lista de nuestros tokens
 lexer_tokenList = []
@@ -163,29 +201,52 @@ lexer = lex.lex()
 
 # Test it out
 data = '''
-3 + 4 * 10
-  + -20 *2
-'''
-lexer.input(data)
 
-# Tokenize
+%{ hol }%}%
+}%
+with
+	var contador: int
+3 + 4 * 10
+  + -20 *2 
+ end
+'''
+z = lexer.input(data)
+
+
 while True:
     tok = lexer.token()
     if not tok: 
-        break      # No more input
-    print(tok)
+        break  
+    lexer_tokenList.append(tok)    
+    
+   
+if len(lexer_error) != 0:
+    print_error()
+else: 
+	for t in lexer_tokenList:
+    
+        	print t
 
-
-
+lex.lex()
 '''
-
+#Construimos el lexer
 def build_lexer(code):
     lexer = lex.lex()
     lexer.input(code)
 
-    for tok in lexer_tokenList:
-        print tok
+    while True:
+    	tok = lexer.token()
+    	if not tok: 
+       		break 
+    	lexer_tokenList.append(tok)    
 
+    if lexer_error != []:
+    	print_error()
+    else:
+    	for t in lexer_tokenList:
+    
+        	print t
+    print("no sirve")
 '''
 if __name__ == '__main__':
 	pass
