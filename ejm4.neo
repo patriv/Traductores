@@ -1,0 +1,14 @@
+with
+    var m : matrix [1,2,3] of matriz [4,5] of int
+    var i : int
+    var j : int
+
+begin
+    %{Asigna 
+      matriz }%
+      for i from 0 to 4 ->
+         for j from 0 to 4 ->
+            print(i)
+            print(j).
+      true /\ false
+end
