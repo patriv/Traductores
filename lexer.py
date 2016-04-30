@@ -49,7 +49,10 @@ reserved = {
 	'int'   : 'TkInt',
 	'matrix': 'TkMatrix',
 
-	'of'    : 'TkOf'
+	'of'    : 'TkOf',
+
+	#operador
+	'not'  : 'TkNot'
 }
 
 # Tokens relevantes
@@ -135,7 +138,7 @@ t_TkDiv = r'/'
 t_TkMod = r'%'
 t_TkConjuncion = r'\/\\'
 t_TkDisyuncion = r'\\/'
-t_TkNegacion = r'not'
+t_TkNegacion = r'\not'
 t_TkMenor = r'<'
 t_TkMenorIgual = r'<='
 t_TkMayor = r'>'

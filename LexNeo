@@ -21,7 +21,7 @@ if __name__ == '__main__':
 		print ('\n''\t'+ "./LexNeo archivo.neo" +'\n')
 		exit()
 
-	#Abrimos el archivo del codigo setlan
+	#Abrimos el archivo del codigo Neo
 	codeFile = open(sys.argv[1], 'r')
 	code = codeFile.read()
 
