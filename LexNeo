@@ -6,30 +6,23 @@ Creado 26/04/2016
 
 @author: Cinthya Ramos. 09-11237
 @author: Patricia Valencia. 10-10916
+
 '''
 
-import os,sys
-from lexer import *
+import sys
+from lexer import tokens, find_column, lexer_error, lexer_tokenList, analyzeNeo
 
 if __name__ == '__main__':
     
-    #Comprobacion de los parametros de entrada. 
-    if len(sys.argv) < 2:
-        print 'Error: Parametros de entrada incorrectos.'
-        print 'Debe escribirlo como: ./LexNeo <archivo.neo>'
-        exit()
+	#Comprobacion de los parametros de entrada. 
+	if len(sys.argv) < 2:
+		print ("Error: Parametros de entrada incorrectos.")
+		print ("Debe hacerlo de la siguiente manera: ")
+		print ('\n''\t'+ "./LexNeo archivo.neo" +'\n')
+		exit()
 
-    # Obtiene el archivo de entrada
-    codeFile = sys.argv[1]
+	#Abrimos el archivo del codigo setlan
+	codeFile = open(sys.argv[1], 'r')
+	code = codeFile.read()
 
-    # Aborta si no se consigue el archivo de entrada a leer
-    if os.path.isfile(codeFile) == False:
-        print("Error: No se consiguio el archivo de entrada especificado")
-        sys.exit(1)
-
-    # Lee el archivo indicado y lo analiza lexicograficamente
-    codeFile = open(codeFile, 'r')
-    code = codeFile.read()
-
-    #Ejecutamos el lexer
-    lexer.build_lexer(code)
+	analyzeNeo(code)

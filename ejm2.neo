@@ -1,0 +1,8 @@
+int
+    var 35 begin
+
+with :
+    %{Asigar al contador
+    el valor 35 }%
+    contador . <- end
+contador
